@@ -1,0 +1,17 @@
+The 2011 EU Common Agricultural Policy aims to strengthen the competitiveness of the agricultural sector, to promote innovation, contribute to environmental protection and to support jobs and growth inrural areas. The consecutive reforms in agricultural policy have created adequate environment for developing and implementing innovative, environmentally friendly farming methods, allowing the farmers to increase the production and manage the local environment, which is essential for the sustainable development of the agricultural sector.
+
+In this paper, wireless sensor network architecture for vegetable greenhouse is proposed in order to achieve scientific cultivation and lower management costs from the aspect of environmental monitoring.According to the analysis of the features of greenhouse environment, a practical and low-cost green-house monitoring system is designed based on wireless sensor network technology in order to monitor key environmental parameters such as the temperature, humidity and illumination.
+
+key words: architeture
+]
+Precision agriculture can be defined as the art and science of using advanced technology to enhance crop production. Wireless sensor network (WSN) technologies are the major driver of the development of precision agriculture. Recent advances in wireless communications and electronics have enabled the development and production of low-cost, low-power and multi-functional sensors that are small in size and communicate in short distances.Cheap, smart sensors, networked through wireless links and deployed in large numbers, provide enormous opportunities for monitoring and controlling homes, cities and the environment(Vieira et al., 2003). WSNs as a contemporary technology, integrate the capabilities of sensors, automation control, digital network transmission, information storage and information processing (Yicket al., 2008)
+
+ The development of WSNs applications in precision agriculture (Brooke et al., 2003) and the system platform for data acquisition, validation, processing and visualization (Cao et al.,2008) makes it possible to increase efficiency, productivity and profitability while minimizing unintended impacts on wildlife and the environment in many agricultural production systems.
+
+Various measurable physical, chemical and microbiological properties may be collected by a network of spatially distributed devices, available during the entire cropping season. Actually, the use of WSNs provides monitoring, acquisition and storage of various measured parameters. The stored data may be used for developing control and optimization strategies for crop production.Also, the collected data may be used for studying the inter-temporal variability of environmental impacts, which is especially important for conversion of conventional towards organic and sustainable crop production (Hokozono et al., 2012). Real time monitoring by implementation of WSNs contributes to minimiza-tion of potential production risks, emerging mainly from environmental  influences  and  human  actions  (Wu  et  al.,  2013).Furthermore, real time data from the fields may be used by farmersto help them adjust their crop production strategies at any time,without the need to use a tractor or any other vehicle to get to eachsampling point.
+
+
+
+ Therefore, the implementation of WSNs contributes to some extent to the decrease of energy consumption in agriculture, bearing in mind that the current cropping systems are usually related to high fossil energy input (Di Nasso et al., 2011)
+
+
