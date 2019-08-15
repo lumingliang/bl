@@ -75,3 +75,12 @@ alias cd..='cd ..'
 ##### 权限
 1. chmod -R 777 dir 递归改读写权限
 2. chown -R own:own dir 递归赋予用户own 目录dir的权限
+
+
+##### ubuntu 中自带有方便的应该启动命令类似centos 的sytemctl 
+
+可以不再用init.d去启动
+initctl list 查看所有
+
+
+sudo initctl restart php7.1-fpm

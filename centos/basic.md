@@ -51,7 +51,7 @@ netstat -an | grep 23 (查看是否打开23端口)
 查看打开的端口：
  /etc/init.d/iptables status
 
-10. netstat -lnp查看进程和端口关联状态
+10. netstat -lnp查看进程和端口关联状态   ; lsof ip:port 查看端口情况
 11. sockect = ip:port
 **ip**详解
 1. ip = 网络号+主机号，ip + 掩码与运算即可获取网络号，ip+掩码的精简形式是: ip/32 表示多少个8如4个8表示255.255.255.255，用精简形式还可以做ip规则匹配，另外网关是一个重要的东西
@@ -120,6 +120,9 @@ lsof -i -U //显示所有打开的端口和UNIX domain文件
 lsof -i UDP@[url]www.akadia.com:123 //显示那些进程打开了到www.akadia.com的UDP的123(ntp)端口的链接
 lsof -i tcp@ohaha.ks.edu.tw:ftp -r //不断查看目前ftp连接的情况(-r，lsof会永远不断的执行，直到收到中断信号,+r，lsof会一直执行，直到没有档案被显示,缺省是15s刷新)
 lsof -i tcp@ohaha.ks.edu.tw:ftp -n //lsof -n 不将IP转换为hostname，缺省是不加上-n参数
+
+测试端口是否到达，
+wget ip:port 如果开通的则至少连接成功，或者显示拒绝；如果没有开放，则显示一直在连接
 ```
 
 ###### 常用命令
@@ -201,3 +204,41 @@ service network restart
 ##### 文件同步
 跨服务器复制
 cd /tmp/dep && rsync -rltgoDzvO -e 'ssh -p22 -i /home/ubuntu/.ssh/id_rsa'   /tmp/dep-1df7a03016d7368ee2d672f2ad00e9ce/ 'ubuntu@119.29.37.172:/var/www/official//'
+
+
+###### 查看ip
+ip addr
+
+
+###### 查找指定文件，并打印出含有字符串的行
+ find ./ -name "error.log" | xargs grep -n robots
+ grep -e “正则表达式” 文件名
+
+ xargs 是一个强有力的命令，它能够捕获一个命令的输出，然后传递给另外一个命令。
+
+之所以能用到这个命令，关键是由于很多命令不支持|管道来传递参数，而日常工作中有有这个必要，所以就有了 xargs 命令，例如：
+
+多行输入单行输出：
+
+# cat test.txt | xargs
+
+用 rm 删除太多的文件时候，可能得到一个错误信息：/bin/rm Argument list too long. 用 xargs 去避免这个问题：
+
+find . -type f -name "*.log" -print0 | xargs -0 rm -f
+
+查找所有的 jpg 文件，并且压缩它们：
+
+find：
+
+查找文件：find ./actions/ -name Constract.php查找包含leyangjun字母的文件：find /etc -name '*leyangjun*'查找srm开头的文件：find/etc -name 'srm*'我们要在/usr目录及子目录下查找文件名包含“leyangjun”关键字的文件：find /usr -print |grep leyangjun
+
+grep：
+
+在Constract.php文件中查找字符leyangjun的行：grep 'leyangjun' Constract.php不区分大小写地搜索。默认情况区分大小写：grep -i 'ModifySubacction' controllers/Constract.php
+
+管道查询：
+
+从根目录开始查找所有扩展名为.log的文本文件，并找出包含”leyangjun”的行：find / -type f -name "*.log" | xargs grep "leyangjun"
+
+当前目录开始查找所有扩展名为.php的文本文件，并找出包含”leyangjun”的行：find ./ -name "*.php" | xargs grep "leyangjun"
+find . -type f -name "*.jpg" -print | xargs tar -czvf images.tar.gz

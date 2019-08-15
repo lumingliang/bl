@@ -1,0 +1,38 @@
+##### lvs 高端负载均衡，linux virtual server
+从第三层（网络层）来实现负载均衡，不像nginx中的http转发，实际上一个http请求来临，连接的是当前的固定服务器，只是它负责向后端请求数据并转发回来。
+在tcp 连接中，单机同时连接的socket数量有限。因此需要将tcp连接分配到多台服务器中。
+http协议中因为连接了就断开了，没有这个烦恼。
+对于tcp服务器，当连接socket大了，最好配置多台服务器
+
+nginx 也有tcp负载均衡模块。不过要收费
+
+ 使用lvs 模式更好。
+ http://soft.chinabyte.com/25/13169025.shtml
+ 配置教程
+ https://www.cnblogs.com/MacoLee/p/5856858.html
+
+ 1. nat 模式，修改目的地址，但是数据包其实发送和返回都经过它。
+ 2. Virtual Server via IP Tunneling 这个模式发送时经过，返回直接由后端服务器返回
+ 3. 负载均衡调度器类似网关
+ 4. 这种功能是在linux内核中实现的
+ 5. lvs 从linux 2.4开始已经集成在内核中，只需要安装ipvsadm管理即可
+
+ 6. vip 是对外开发的ip，可以动态的映射到不同的mac地址，路由寻址的根本其实是用mac，当发现蹋机时，会将vip映射到备用用的主机的的mac上
+
+ ```
+ 比如有三台服务器，A，B，C。A是主服务器，B是灾备服务器，C是前端服务器，依赖A。通常情况，C的应用只会连A的IP地址。并不知道B的地址。B会一直心跳检测A是否正常。
+ 此时，在C服务器中的ARP缓存映射情况如下：
+A的IP（VIP）	A的MAC
+B的IP	B的MAC
+A宕机，B检测到A心跳挂了，于是启动切换。
+A的IP（VIP）	B的MAC
+B的IP	B的MAC
+
+ ```
+
+ 还有就是用haproxy，代理方式，实际上是代理建立tcp或者http连接
+
+ nginx haproxy lvs三种详解
+
+
+ https://www.cnblogs.com/skyflask/p/6970151.html

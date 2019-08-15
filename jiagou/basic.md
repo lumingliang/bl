@@ -30,6 +30,7 @@ https://serversforhackers.com/nginx-caching
 3. 以上均是一对多关系
 4. db中可以简单的采用hash方式，对于每一个用户都指定到唯一的数据库和前缀表
 5. 缓存也是从前端到cdn再到数据库逐渐缓存
+6. 浏览器缓存、代理服务器缓存、服务器负载均衡（session统一化）、分库分表、垂直拆分业务
 
 
 ###### 架构控制大并发
@@ -51,4 +52,52 @@ http://blog.csdn.net/chunlongyu/article/details/52431200
 分布式RPC
 分布式数据库/Nosql
 分布式消息中间件
-分布式session问题
+分布式session问题，采用redis session，如果机器上不存在则从redis上找，和重新创建，cookie中保存有session的标号信息，cookie多站点共享一种是域名，一种是通过重定向
+
+##### 数据库分布式
+acid 原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）。一个支持事务（Transaction）的数据库，必须要具有这四种特性
+
+oltp 联机（在线事务处理）、olap在线分析处理
+
+
+ha 高可用，
+主从：从平时不用出事用 从(stanby)
+主主：存在冲突问题，可以用任一时候只写一台服务器方法，主键可以设定偏移
+ uuid 唯一id可以用php生成 https://www.cnblogs.com/buffer/p/3237483.html
+ mysql keepalive 监测宕机
+
+ http://blog.csdn.net/clz1314521/article/details/51695200
+ http://blog.csdn.net/sanjay_f/article/details/48916171
+
+ 分布式后，每个节点最好都有一个standby备份一下
+
+##### psql分布式
+用psql-xl
+gtm 全局事务管理模块，接收所有的事务处理请求，可以配置一个gtm proxy集中处理，也可以配置一个standby
+Coordinator 协调器负责决定存储哪个节点
+datanode 数据节点
+
+
+
+##### 语义化版本
+4.3.1 4是不向下兼容，3是向下兼容加入功能 1 是向下兼容修复问题
+
+
+##### 什么是SELinux？
+目的在于明确的指明某个进程可以访问哪些资源(文件、网络端口等)。强制访问控制系统 的用途在于增强系统抵御 0-Day 攻击(利用尚未公开的漏洞实现的攻击行为)的能力。所以它不是网络防
+举例来说，系统上的 Apache 被发现存在一个漏洞，使得某远程用户可以访问系统上的敏感文件(比如 /etc/passwd 来获得系统已存在用户) ，而修复该安全漏洞的 Apache 更新补丁尚未释出。此时 SELinux 可以起到弥补该漏洞的缓和方案。因为 /etc/passwd 不具有 Apache 的 访问标签，所以 Apache 对于 /etc/passwd 的访问会被 SELinux 阻止。 相比其他强制性访问控制系统，SELinux 有如下优势：
+
+vim /etc/selinux/config
+
+
+###### 并发
+用锁的方法解决并发，确保原子操作
+1. 将字段改为非负数值,对于php层-1的有效
+2. 使用redis队列，需解决队列存满问题
+3. 使用悲观锁，先加锁，禁止其他进程操作，后解锁
+4. 乐观锁，使用版本号策略，被别人改了就回滚，有reids的watch
+5. 文件锁
+
+###### 消息队列
+作用是 控制高并发、先存入消息队列快速响应，后面异步存入数据库
+业务解耦

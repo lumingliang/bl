@@ -23,5 +23,6 @@ yarn jar first.jar first.WordCountEx /tmp/input/words_01.txt /tmp/output/1007_05
 12. hadoop 插件http://www.cnblogs.com/mephisto/p/4857723.html
 13. http://eric-gcm.iteye.com/blog/1807468 hadoop mapreduce 经典案例 
 
+14. 内存不足时，处理大数组，一种是分批处理，一种是及时释放内存
 
 

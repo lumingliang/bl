@@ -57,3 +57,31 @@ window.resolveLocalFileSystemURL(myPath, function (dirEntry) {
 });
 root.getDirectory("storage", {create: true, exclusive: false}, onDirectorySuccess, onDirectoryFail);
 
+select tire_spec, count(tire_spec) from car_model_tire group by tire_spec order by count desc;
+
+
+###### 正则去掉导入sql尾缀
+(?<=.*)(, '\d+')(?=\);$)
+
+
+
+
+###### 随机读取
+```
+2、稍微快一点的方式，用offset来实现：
+
+SELECT myid FROM mytable ORDER BY RANDOM() LIMIT 1;
+SELECT myid FROM mytable OFFSET floor(random()*N) LIMIT 1; ;w
+
+4、借助另一列的索引实现：
+
+create table randtest (id serial primary key, data int not null);
+insert into randtest (data) select (random()*1000000)::int from generate_series(1,1000000); 
+create index randtest_md5_id_idx on randtest (md5(id::text));
+explain analyze
+select * from randtest where md5(id::text)>md5(random()::text) order by md5(id::text) limit 1;
+
+9.5版用 TABLESAMPLE:
+SELECT * FROM my_table TABLESAMPLE SYSTEM(0.000001) LIMIT 1;
+
+```

@@ -12,6 +12,7 @@ CLASSPATH .;%Java_Home%\bin;%Java_Home%\lib\dt.jar;%Java_Home%\lib\tools.jar
 Path ;%Java_Home%\bin;%Java_Home%\jre\bin;
 Path C:\Users\Administrator\AppData\Local\Android\Sdk\tools;C:\Users\Administrator\AppData\Local\Android\Sdk\platform-tools
 ANDROID_HOME C:\Users\Administrator\AppData\Local\Android\Sdk
+adb path要配置在android sdk 里面
 ```
 8. 安装andoid studio ，安装后会自动整合Java_Home，选择common，安装好各种需要的东西
 9. 打开android studio，可以点击类似下载的箭头图标来安装相关android sdk包，skd里面有很多包，都是要安装的

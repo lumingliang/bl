@@ -20,3 +20,6 @@ http://angus717.blog.51cto.com/1593644/1185517/
 
 // 列出所有当前访问的ip地址，先awk 取出一段，在减掉:间隔处再去重排序
 netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
+
+ubuntu 下用ufw  来管理防火墙
+腾讯云上默认使用安全组配置

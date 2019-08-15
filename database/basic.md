@@ -22,3 +22,9 @@ mysql 优化http://www.cnblogs.com/musings/p/5913157.html
 http://blog.csdn.net/nightelve/article/details/17393631
 mysql存储引擎 http://www.cnblogs.com/xujishou/p/6343431.html
 
+
+###### 去重sql语言
+select * from car_tire_spec a where not exists (select 1 from car_tire_spec where a.tire_spec=tire_spec and
+ a.series_name = series_name and a.id <id);
+
+数据实现原理，explain，多路io复用

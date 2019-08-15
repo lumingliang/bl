@@ -51,3 +51,30 @@ composer中php版本欺骗
         "php": "5.5.1"
     }
 }
+
+###### composer 依赖问题
+某个包可能依赖某个指定的版本，那就手动先安装它依赖包的指定版本
+依赖安装完成后再安它本身
+
+
+require-dev 只在开发环境安装
+composer install --no dev  不安装require-dev项目
+~1.2相当于>=1.2,<2.0。
+1.0.*与>=1.0,<1.1是等效的。 而 ~1.2.3 相当于 >=1.2.3,<1.3
+
+对不稳定版本的依赖
+
+{
+    "require": {
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
+        "doctrine/data-fixtures": "@dev"
+    }
+}
+
+只更新新填入的包
+composer update --lock
+
+composer dump-autoload --optimize 生产环境优化
+
+
+

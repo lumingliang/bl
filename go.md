@@ -210,3 +210,134 @@ func main() {
 	)
 }
 ```
+
+
+####### go项目目录结构
+http://blog.studygolang.com/2012/12/go%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/
+go 语言依赖 
+https://studygolang.com/articles/2147
+
+go 的命令
+http://wiki.jikexueyuan.com/project/go-command-tutorial/0.1.html
+
+
+```
+go run xx.go 在线运行
+go build  以当前目录main.go为基准，build exe
+
+```
+下载好go后，先配置好GOPATH 所有依赖都会在此目录的src下面
+每一个目录即包名，包名下面的文件名可以直接使用。函数引用包名.文件名.func
+主文件包名，为main
+package 名可以与目录名不一样
+引入时候先
+```
+"github.com/googollee/go-socket.io" 到目录名
+然后下面有个名为xxx.go pakcage 名为socketio 的文件，改文件里面有func函数
+外部使用时 socketio.func
+即同一目录下的文件名不太重要，但是要统一包名
+```
+
+###### go指针
+指针在编译语言中，用来操作、访问变量，而不是该变量的复制版本
+a := &b 获取b的指针
+*a 得到b的值， 一般如果b是数据或者结构体等复杂类型变量，可以用a直接使用
+但是在使用前的类型声明时，要声明a是一个指针 (a *b)
+
+type xx =int8 创建一个新的类型
+
+
+###### go 面向对象
+go中类用type xx struct来实现，后面跟一丢方法
+go map 类型，类似字典 var a  map[keyType]valueType
+```
+rating := map[string] float32 {"C":5, "Go":4.5, "Python":4.5, "C++":2 }
+// 复杂的val类型
+myMap := map[string] personInfo{"1234": personInfo{"1", "Jack", "Room 101,..."},}
+
+```
+ map是一种引用类型，如果两个map同时指向一个底层，那么一个改变，另一个也相应的改变。
+
+ go 协程 
+ https://blog.csdn.net/u011304970/article/details/76168257
+
+
+ golang 接口，只是一种声明，用于类型限制
+ 一个类不用显式的声明是实现了这个接口，只需要在定义变量时声明是这种接口类型，然后传过来的类又有该些方法即可。接口就相当于一个契约
+
+ interface{}是可以传任意参数的，
+
+ ```
+ if v2, ok := v.(string);ok
+
+ 先赋值v2,ok := v.(string) 看是否成功，成功就是if ok 
+ ```
+
+###### 处理错误
+ 当一个函数在执行过程中出现了异常或遇到 panic()，正常语句就会立即终止，然后执行 defer 语句，再报告异常信息，最后退出 goroutine。如果在 defer 中使用了 recover() 函数,则会捕获错误信息，使该错误信息终止报告。
+ ```
+ func catch(nums ...int) int {
+ defer func() {
+  if r := recover(); r != nil {
+   log.Println("[E]", r)
+  }
+ }()
+
+ return nums[1] * nums[2] * nums[3] //index out of range
+}
+ ```
+
+ golang defer 函数会在return执行后（但并没有真正return，并且停掉），开始执行。
+ ```
+ func f() (result int) { 
+
+    result = 0 //return语句不是一条原子调用，return xxx其实是赋值＋RET指令 
+
+    func() { //defer被插入到return之前执行，也就是赋返回值和RET指令之间 
+
+        result++ 
+
+    }() 
+
+    return
+
+}
+该函数声音result 是返回值，那么直接写return 会将内部的变量result 返回。
+如果内部没有该变量，会自动生成该变量 如return nil 会赋值 result = nil 
+ ```
+
+##### 小贴士
+ import 就是import整个目录，然后整个目录下的文件都可以随意用
+ 因为是编译性语言，只要知道目录就不用声明文件了
+ 处于同一个目录下的两个文件，互相引用不用声明,不用import就可以直接用
+ 每个文件都有一个packname，引用时，先声明目录，然后用packname.xxx来访问
+
+ go中的类：先用strut声明变量，然后用func传递接收者来获得函数
+
+
+ go get 出现报错并不一定是因为包没装好，而是因为go get 可能会自动编译包，然后该包下没有.go文件
+
+
+###### protobuf
+ 是一个通讯格式。可以用该语言特定的exe或者执行文件，产生一个该语言的文件，直接在程序里面使用，用来对数据进行交换
+ 一个.proto 文件可以用在多种语言
+
+ golang种
+ ```
+ 下载protoc.exe,proto生成.go文件的工具 https://github.com/google/protobuf/releases
+ 复制到go的bin下面
+ go get -u github.com/golang/protobuf/proto
+
+go get -u github.com/golang/protobuf/protoc-gen-go （到该目录去编译获得protoc-gen-go 执行文件并放到go 的bin下面
+ ```
+####### 结构体复制
+ golang map是引用传值
+ ```
+    T1 := &TestS{1}
+    T2 := *T1
+    T3 := &T2   
+    T3.a = 5
+    log.Print(T1)
+    log.Print(T3)
+
+ ```

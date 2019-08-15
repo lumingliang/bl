@@ -160,3 +160,11 @@ return ob_get_clean(); // 清楚缓冲区，并得到输出string
 ##### php 传值
 php中对象都是引用传值
 
+
+##### 
+require_once 加载过就不加载
+require 一般放在 PHP 文件的最前面，程序在执行前会先导入所需要引用的文件；
+include 一般放在程序的流程控制中，当程序执行时碰到才会引用，简化程序的执行流程。
+require 引入的文件有错误时，执行会中断，并返回一个致命错误；
+include 引入的文件有错误时，会继续执行，并返回一个警告。
+include和require都有返回值,require文件出错时候才没有

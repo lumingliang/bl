@@ -148,3 +148,13 @@ sudo apt-get install mysql-server
 以下这两不用运行也会自动安装
 sudo apt-get install mysql-client
 sudo apt-get install php5-mysql(安装php5-mysql是将php和mysql连接起来 )
+
+
+创建索引的原则
+1．选择唯一性索引
+2．为经常需要排序、分组和联合操作的字段建立索引
+3．为常作为查询条件的字段建立索引
+4．限制索引的数目
+5．尽量使用数据量少的索引
+6．尽量使用前缀来索引
+7．删除不再使用或者很少使用的索引

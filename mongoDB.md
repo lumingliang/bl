@@ -281,3 +281,4 @@ db.col.update({'name': 'v'} , {'some': 'new'}) 这里会直接替换掉匹配的
 21. title:eval("/"+title+"/i")    // 等同于 title:{$regex:title,$Option:"$i"} 类似模糊查询
 
 
+22. id是一种分布式的id，要根据id批量删除时，要用比较方法，因为id是与时间戳相关，db.drive.remove({_id:{$gt:ObjectId("5d39863d76dab53cb9696f87")}})

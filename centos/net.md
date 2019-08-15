@@ -30,3 +30,64 @@ eth0.2 是vlan分出的wan口。
 路由器、电脑联网底层，都是在整个网段中发送一个包，各个网段的设备决定是否接受，即广播
 路由的选择非常重要，如先匹配ip，再匹配网关，然后决定从哪个端口、或者网卡发送出去
 http://www.cnblogs.com/dongzhiquan/archive/2012/12/26/2834904.html
+
+##### nat 
+
+nat是实现修改s d地址的方法。
+有静态、动态方式。
+静态方式是一个内网ip用一个公网ip上网
+动态方式通过端口、目的地址唯一映射实现内网多个ip用一个公网ip
+https://www.cnblogs.com/dongzhuangdian/p/5105844.html
+各类代理、vpn介绍
+http://blog.csdn.net/xy913741894/article/details/73477143
+
+Redhat Linux的网络配置，基本上是通过修改几个配置文件来实现的，虽然也可以用ifconfig来设置IP，用route来配置默认网关，用hostname来配置主机名，但是重启后会丢失。
+rhel 系列
+Linux中网络相关的主要的几个配置文件为：
+/ect/hosts配置主机名（域名）和IP地址的对应
+/etc/sysconfig/network配置主机名和网关
+/etc/sysconfig/network-scripts/ifcfg-eth0 eth0配置文件，eth1则文件名为ifcfg-eth1，以此类推/etc/resolv.conf配置DNS客户端（关于使用哪个DNS服务器的配置）
+
+
+Ubuntu 的网络配置文件主要有以下几个：IP地址配置文件、主机名称配置文件、DNS配置文件。
+
+sudo vi /etc/network/interfaces 配置网卡
+
+ 设定第二个IP地址(虚拟IP地址)
+
+编辑文件/etc/network/interfaces: sudo vi /etc/network/interfaces
+在该文件中添加如下的行:
+auto eth0:1
+iface eth0:1 inet static
+address 192.168.1.60
+netmask 255.255.255.0
+network x.x.x.x
+broadcast x.x.x.x
+gateway x.x.x.x
+
+主机名称配置文件(/bin/hostname)
+
+使用下面的命令来查看当前主机的主机名称:
+
+sudo /bin/hostname
+
+使用下面的命令来设置当前主机的主机名称:
+
+sudo /bin/hostname newname
+
+系统启动时,它会从/etc/hostname来读取主机的名称.
+
+####### 域名解析配置
+sudo vim /etc/resolv.conf
+添加 8.8.8.8
+sudo /etc/init.d/resolvconf restart
+
+有可能会在 restart后该文件又变回原样，直接改后不restart试试
+但是，上述方法会在重启后被清除，导致再次开机时需要重新配置，经过查阅网上资料，方法很多种，比较有效的就是，直接卸载掉开机重写该文件的 resolvconf。 
+执行命令：sudo apt-get autoremove resolvconf
+
+如果仍需要使用 resolvconf ，则可在卸载后，对 /etc/resolv.conf 加锁后再重新安装该软件，这样 resolvconf 就不会在开机时重写该文件。
+ 文件加锁 不可写
+sudo chattr +i /etc/resolv.conf  
+ 文件解锁 可写
+sudo chattr -i /etc/resolv.conf
